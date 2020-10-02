@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function DataFetch() {
     const [loading, setLoading] = useState(true);
+    const [btnLoading, setBtnLoading] = useState('Another');
     const [activity, setActivity] = useState([]);
     const [count, setCount] = useState(0);
 
@@ -12,13 +13,21 @@ function DataFetch() {
             .then(res => {
                 setLoading(false);
                 setActivity(res.data);
+                setBtnLoading('Another')
             })
             .catch(error => {
                 console.log(error);
             })
     }, [count]);
 
-
+    function handleBtn() {
+        setCount(count + 1);
+        setBtnLoading(() => {
+            return (
+                <i className="fas fa-circle-notch fa-spin"></i>
+            )
+        })
+    }
 
 
     return (
@@ -33,7 +42,7 @@ function DataFetch() {
                 <>
                     <div className="category">{activity.type}</div>
                     <div className="boredactivity">-  {activity.activity}</div>
-                    <button className="btn" onClick={() => setCount(count + 1)}> Another </button>
+            <button className="btn" onClick={handleBtn}>{btnLoading}</button>
                 </>
             }
         </>
